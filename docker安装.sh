@@ -25,56 +25,56 @@ elif [ -f /etc/debian_version ]; then
     VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
     OS="Red Hat/CentOS"
-    VER=$(cat /etc/redhat-release | sed 's/.*release //;s/ .*//')
-else
-    OS=$(uname -s)
-    VER=$(uname -r)
+    ver = $（cat/etc/redhat-release | sed 's/.*版本//; s/。*//'）
+别的
+    OS = $（UNAME -S）
+    VER = $（UNAME -R）
 fi
 
-# 获取 CPU 信息
-if [[ $OS == *"CentOS"* || $OS == *"Red Hat"* ]]; then
-    CPU_INFO=$(lscpu)
-else
-    CPU_INFO=$(lscpu) # 后续可根据不同系统修改这里的指令
+＃获取cpu信息
+如果[[ $ os == * “ centos” * || $ os == * “红色帽子” *]];然后
+    cpu_info = $（lscpu）
+别的
+    cpu_info = $（lscpu）＃后续可根据不同系统修改这里的指令
 fi
 
-# 输出识别到的系统信息、具体版本号和 CPU 信息
-echo "识别到的系统: $OS"
-echo "系统具体版本号: $VER"
-echo "CPU 信息:"
-echo "$CPU_INFO"
+＃输出识别到的系统信息、具体版本号和 cpu信息
+回声“识别到的系统：$ os ”
+回声“系统具体版本号：$ ver ”
+Echo “ CPU信息：”
+Echo “ $ cpu_info ”
 
-# 获取 CPU 架构信息
-ARCH=$(uname -m)
+＃CPU架构信息
+Arch = $（UNAME -M）
 
-# 输出开发者联系方式
-GREEN='\033[0;32m'
-NC='\033[0m' # 重置颜色
-echo -e "${GREEN}开发者联系方式: example@example.com${NC}"
+＃输出开发者联系方式
+绿色= '\ 033 [0; 32m'
+nc = '\ 033 [0m'  ＃重置颜色
+echo -e  “ $ {green}开发者联系方式：桃子QQ：14444316761 $ {NC} ”
 
-# 判断 Docker 是否已经安装
-docker_installed=false
-if command -v docker &> /dev/null; then
-    echo "Docker 已经安装，无需再次安装。"
-    docker_installed=true
+＃docker是否已经安装
+docker_installed = false
+如果命令-v docker＆> /dev /null;然后
+    Echo “ Docker已经安装，无需再次安装。”
+    docker_installed = true
 fi
 
-# 提示用户输入 y 以承担风险
-read -p "继续安装 Docker 可能会有一定风险，确认要继续吗？输入 y 继续，其他任意键退出: " RESPONSE
-if [ "$RESPONSE" != "y" ]; then
-    echo "安装已取消。"
-    exit 0
+＃提示用户输入Y以承担风险
+读-p  “ docker可能会有一定风险
+如果[ “ $ wendesp ”！= “ y” ];然后
+    回声“安装已取消。”
+    出口 0
 fi
 
-# 根据不同系统执行不同安装步骤
-if [ "$docker_installed" = false ]; then
-    if [[ $OS == *"Ubuntu"* || $OS == *"Debian"* || $OS == *"Armbian"* ]]; then
-        # Ubuntu、Debian 或 Armbian 系统
-        # 更新包索引
-        sudo apt-get update
-        # 安装必要的包
-        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-        # 添加 Docker 的官方 GPG 密钥
+＃根据不同系统执行不同安装步骤
+如果[ “ $ docker_installed ” = false ];然后
+    如果[[ $ os == * “ ubuntu” * || $ OS == * “ Debian” * || $ OS == * “ Armbian” *]];然后
+        ＃ubuntu，debian或armbian系统
+        ＃更新包索引
+        sudo apt-get更新
+        ＃安装必要的包
+        sudo apt-get install -y apt-transport-https ca-cectifates curl gnupg-gnupg-gnupg-afts offact-properties-common
+        ＃docker的官方gpg密钥
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
         # 添加 Docker 稳定版仓库
         if [[ $ARCH == "arm64" || $ARCH == "aarch64" ]]; then
@@ -82,9 +82,9 @@ if [ "$docker_installed" = false ]; then
                 sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
             elif [[ $OS == *"Debian"* ]]; then
                 CODENAME=$(lsb_release -cs)
-                sudo sh -c "echo 'deb [arch=arm64] https://download.docker.com/linux/debian $CODENAME stable' > /etc/apt/sources.list.d/docker.list"
-            elif [[ $OS == *"Armbian"* ]]; then
-                CODENAME=$(lsb_release -cs 2>/dev/null || echo "unknown")
+                sudo sh -c  “ echo deb [arch = arm64] https://download.docker.com/linux/debian $ codename stable stable'> /etc/apt/sources.list.list.d/docker.list.list”
+            elif [[ $ os == * “ armbian” *]];然后
+                codename = $（lsb_release -cs 2>/dev/null || echo “ unknown”）
                 sudo sh -c "echo 'deb [arch=arm64] https://download.docker.com/linux/debian $CODENAME stable' > /etc/apt/sources.list.d/docker.list"
             fi
         else
